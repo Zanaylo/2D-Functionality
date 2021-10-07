@@ -4,38 +4,29 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb;
-    [SerializeField] private float MovementSpeed; //Quantidade de Força adicionada quando o Jogador andar
-    
-    
-    
+    //Chamada da class CharacterStates para movimentação do personagem
+    public CharacterStates controller;
+    float horizontalMoviment = 0f;
+    bool jump = false;
+    public float runSpeed = 40f;
 
-    private void Awake()
+
+    void Update()
     {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void Movement()
-    {
-        if (Input.GetAxisRaw("Horizontal") > 0)
+        //Resgatando a Direção e Adicionando força
+        horizontalMoviment = Input.GetAxisRaw("Horizontal") * runSpeed;
+        //Resgatando caso o Botão "Space" seja apertado
+        if (Input.GetButtonDown("Jump"))
         {
-            rb.velocity = new Vector2(MovementSpeed * Time.fixedDeltaTime, rb.velocity.y);
-
-        }
-        else if (Input.GetAxisRaw("Horizontal") < 0)
-        {
-            rb.velocity = new Vector2(-MovementSpeed * Time.fixedDeltaTime, rb.velocity.y);
-        }
-        else
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            jump = true;
         }
     }
-
-    private void FixedUpdate()
+     void FixedUpdate()
     {
-        Movement();
+        //Adicionando Força para o Methodo Move, separando as funções e metodos das entradas do player.
+        controller.Move(horizontalMoviment * Time.fixedDeltaTime, jump);
+        jump = false;
     }
 
-    
+
 }
