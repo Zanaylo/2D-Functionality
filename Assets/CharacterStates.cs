@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterStates : MonoBehaviour
 {
@@ -13,9 +14,17 @@ public class CharacterStates : MonoBehaviour
     private bool m_Facing = true; // Verifica se o Jogador está olhando para a Esquerda(False) ou Direita(True)
     private Vector2 m_Velocity = Vector2.zero; // atualização da Velocidade Atual para chegar na Nova Velocidade
 
+
+    [Header("Events")]
+    [Space]
+    public UnityEvent OnLandEvent;
+
+
     private void Awake()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        if (OnLandEvent == null)
+            OnLandEvent = new UnityEvent();
     }
 
 
@@ -68,7 +77,11 @@ public class CharacterStates : MonoBehaviour
         {
             if (colliders[i].gameObject != gameObject)
             {
+                
                 m_Grounded = true;
+                if (!wasGrounded)
+                    OnLandEvent.Invoke();
+                
             }
         }
         
