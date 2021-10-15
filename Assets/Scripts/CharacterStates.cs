@@ -7,7 +7,9 @@ public class CharacterStates : MonoBehaviour
     [SerializeField] private Transform m_GroundCheck; //Componente de Verificação caso o Objeto estiver no chão.
     [SerializeField] private LayerMask m_WhatIsGround; //Mascara para definir o layer que é "chão" ou Grounded.
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f; //Aplicar fluidez na movimentação
-    private Animator animator;  //Chamada para o componente Animator e RigidBody
+    private Animator animator;  //Chamada para o componente Animator
+    [SerializeField]private GameObject End_Screen; //Chamada para UI End_Screen
+    
 
     const float k_GroundedRadius = .3f; // Raio de verificação de Solo
     private bool m_Grounded; //Defini se o Objeto está ou não no chão
@@ -85,14 +87,26 @@ public class CharacterStates : MonoBehaviour
         }
     }
 
+
     public void Die()
     {
-        m_Rigidbody2D.bodyType = RigidbodyType2D.Static; //Transforma o RigidBody em Static transfigurando em não aplicação da física
+        m_Rigidbody2D.bodyType = RigidbodyType2D.Static;
         animator.SetTrigger("Death"); // Chama a aniamação de death que contém o evento que reinicia a Cena 
+    }
+
+
+    public void GameWin(int fruit)
+    {
+
+        if (fruit == 12)
+        {
+            Debug.Log("GameWin!");
+            End_Screen.gameObject.SetActive(true); //Chama a Tela de Parabéns
+        }
 
     }
-    
-    private void Resetlevel()
+
+    public void Resetlevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Reinicia a Cena
     }

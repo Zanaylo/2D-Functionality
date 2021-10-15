@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ItemCollector : MonoBehaviour
 {
-
+    [SerializeField]private CharacterStates controller;
     private int contFruit = 0; // Contador de Frutas
+    
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //Fazer as serem destruidas e adicionar ao contador.
         if (collision.CompareTag("Collectable"))
@@ -15,7 +16,10 @@ public class ItemCollector : MonoBehaviour
             Destroy(collision.gameObject);
             contFruit++;
             Debug.Log("Frutas coletadas: " + contFruit);
+            controller.GameWin(contFruit);
         }
     }
+
+    
 
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerLife : MonoBehaviour
 {
     
-    public CharacterStates controller; // Resgate de componente
+    [SerializeField]private CharacterStates controller; // Resgate de componente
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
