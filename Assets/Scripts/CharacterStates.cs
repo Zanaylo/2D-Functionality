@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CharacterStates : MonoBehaviour
 {
@@ -84,6 +85,18 @@ public class CharacterStates : MonoBehaviour
         }
     }
 
+    public void Die()
+    {
+        m_Rigidbody2D.bodyType = RigidbodyType2D.Static; //Transforma o RigidBody em Static transfigurando em não aplicação da física
+        animator.SetTrigger("Death"); // Chama a aniamação de death que contém o evento que reinicia a Cena 
+
+    }
+    
+    private void Resetlevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Reinicia a Cena
+    }
+
 
     private void FixedUpdate()
     {
@@ -103,4 +116,5 @@ public class CharacterStates : MonoBehaviour
         
     }
 
+   
 }
