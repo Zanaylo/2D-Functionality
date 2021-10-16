@@ -18,4 +18,8 @@ public class PlayerLife : MonoBehaviour
 
     }
 
+    public void PlayerDie()
+    {
+        controller.Die();
+    }
 }

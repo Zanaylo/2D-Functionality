@@ -10,7 +10,7 @@ public class ItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Fazer as serem destruidas e adicionar ao contador.
+        //Faz os objetos "Collectable" serem destruidas e adiciona ao contador.
         if (collision.CompareTag("Collectable"))
         {
             Destroy(collision.gameObject);

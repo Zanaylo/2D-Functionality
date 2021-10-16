@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Collections;
 
 public class CharacterStates : MonoBehaviour
 {
@@ -8,7 +10,7 @@ public class CharacterStates : MonoBehaviour
     [SerializeField] private LayerMask m_WhatIsGround; //Mascara para definir o layer que é "chão" ou Grounded.
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f; //Aplicar fluidez na movimentação
     private Animator animator;  //Chamada para o componente Animator
-    [SerializeField]private GameObject End_Screen; //Chamada para UI End_Screen
+    [SerializeField] private GameObject End_Screen; //Chamada para UI End_Screen
     
 
     const float k_GroundedRadius = .3f; // Raio de verificação de Solo
@@ -79,7 +81,7 @@ public class CharacterStates : MonoBehaviour
             Flip(); //Caso o Objeto estiver movimentando-se para a direita então vire o mesmo para a esquerda
         }
         
-        if (m_Grounded && jump) // Se o jogador Pular e Estiver no solo
+        if (m_Grounded && jump && m_Rigidbody2D.velocity.y > -.1f) // Se o Estiver no Solo e Pular e não estiver caindo (Evitar alguns Bugs indesejados)
         {
             //Aplique uma Força Vertical
             m_Grounded = false;
@@ -95,7 +97,7 @@ public class CharacterStates : MonoBehaviour
     }
 
 
-    public void GameWin(int fruit)
+    public void GameWin(int fruit) 
     {
 
         if (fruit == 12)
@@ -106,11 +108,15 @@ public class CharacterStates : MonoBehaviour
 
     }
 
+    public void Bounce(float bounce)
+    {
+        m_Rigidbody2D.AddForce(transform.up * bounce, ForceMode2D.Impulse);
+    }
+
     public void Resetlevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); //Reinicia a Cena
     }
-
 
     private void FixedUpdate()
     {
